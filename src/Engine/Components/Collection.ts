@@ -3,9 +3,9 @@ import { Movable } from "./Movable";
 import { Component } from "./Component";
 
 export class Colletcion{
-    readonly visibles = new Array<Array<Visible>>()
-    readonly movables = new Array<Movable>()
-    readonly all = new Array<Component>()
+    readonly visibles: Visible[][] = []
+    readonly movables: Movable[] = []
+    readonly all: Component[] = []
     constructor(){
     }
     addComponent(component: Visible | Movable, layer: number): void;
@@ -19,9 +19,9 @@ export class Colletcion{
         if(component instanceof Movable)
             this.movables.push(component)
     }
-    addComponents(component: Array<Visible>, layer: number): void;
-    addComponents(component: Array<Movable>): void;
-    addComponents(list: Array<Visible | Movable>, layer?: number): void{
+    addComponents(component: Visible[], layer: number): void;
+    addComponents(component: Movable[]): void;
+    addComponents(list: Visible[] | Movable[], layer?: number): void{
         for(let component of list)
             this.addComponent(component, layer)
     }

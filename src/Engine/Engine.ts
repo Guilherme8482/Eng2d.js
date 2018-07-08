@@ -6,8 +6,8 @@ import { Screen } from './Screen/screen'
 export class Engine{
     readonly screen = new Screen()
     readonly currentScene: Scene
-    readonly scenes: Array<Scene>
-    
+    readonly scenes: Scene[]
+
     constructor(){
         this.currentScene = new Scene('default', this.screen.canvas)
         this.scenes = [this.currentScene]
@@ -21,29 +21,37 @@ export class Engine{
 
         this.adjustView()
 
+        this.matchEvents()
+        
         this.refreshMovables()
-
+        
         this.matchEvents()
     }
     renderComponents(){
         for(let layer of this.currentScene.collection.visibles)
             for(let component of layer)
                 if(this.screen.limit.collidesWith(component) && component.visible)
-                    component.draw(this.screen.context)            
+                    component.draw(this.screen.context)
     }
     adjustView(){
         //...
     }
     refreshMovables(){
         for(let component of this.currentScene.collection.movables)
-            component.refresh()     
+            component.refresh()
     }
     matchEvents(){
-        for(let componentA of this.currentScene.collection.movables)
+        for(let componentA of this.currentScene.collection.movables){
+            let matchedComponents: {[id: number]: Component[]} = {}
             for(let componentB of this.currentScene.collection.all)
                 if(componentA != componentB)
                     for(let tag of componentB.tags)
-                        if(componentA.events.expectedTags.includes(tag))
-                            componentA.events.fire(tag, componentB)
+                        if(componentA.events.expectedTags.includes(tag)){
+                            if(!matchedComponents[tag])
+                                matchedComponents[tag] = []
+                            matchedComponents[tag].push(componentB)
+                        }
+            componentA.events.fire(matchedComponents)
+        }
     }
 }

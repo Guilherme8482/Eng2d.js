@@ -1,6 +1,6 @@
 
 export class ControlOneTime{
-    readonly inputs: {[id: string] : () => void}
+    readonly inputs: {[id: string] : () => void} = {}
     constructor(canvas: HTMLCanvasElement){
         canvas.addEventListener('keypress', this.fireAction.bind(this))
     }

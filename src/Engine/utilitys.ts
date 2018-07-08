@@ -1,11 +1,11 @@
 export let GRAVITY = 10
 
-export enum ComponentType {
-    player,
-    ground,
-    wall,
-    mob
+export enum Axis{
+    x,
+    y,
+    z
 }
+
 export class Color{
     private _code: string
     constructor(color?: string){
@@ -18,7 +18,7 @@ export class Color{
         let hexadecimal = '123456789ABCDEF'
         this._code = '#'
         for(let i = 0; i < 6; ++i)
-            this._code += hexadecimal[Math.floor(Math.random() * 16)]     
+            this._code += hexadecimal[Math.floor(Math.random() * 16)]
     }
     get code(){
         return this._code

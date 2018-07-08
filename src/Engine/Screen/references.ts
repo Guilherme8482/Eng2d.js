@@ -8,7 +8,7 @@ export class Velocity{
     readonly current = new Point(0,0)
     readonly max: Point
     readonly acceleration: Point
-    constructor(maxX: number,maxY: number, 
+    constructor(maxX: number,maxY: number,
                 accelerationX?: number, accelerationY?: number){
         this.max = new Point(maxX, maxY)
         if(accelerationX && accelerationY)

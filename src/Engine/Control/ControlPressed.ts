@@ -1,6 +1,6 @@
 
 export class ControlPressed{
-    readonly inputs: {[id: string] : Input}
+    readonly inputs: {[id: string] : Input} = {}
     constructor(canvas: HTMLCanvasElement){
         canvas.addEventListener('keydown', this.pressKey.bind(this))
         canvas.addEventListener('keyup', this.pressKey.bind(this))
