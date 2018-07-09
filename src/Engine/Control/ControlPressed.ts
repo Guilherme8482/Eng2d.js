@@ -2,8 +2,8 @@
 export class ControlPressed{
     readonly inputs: {[id: string] : Input} = {}
     constructor(canvas: HTMLCanvasElement){
-        canvas.addEventListener('keydown', this.pressKey.bind(this))
-        canvas.addEventListener('keyup', this.pressKey.bind(this))
+        addEventListener('keydown', this.pressKey.bind(this))
+        addEventListener('keyup', this.unpressKey.bind(this))
     }
     addAction(button: string, action: () => void, timeLimit: number){
         this.inputs[button[0].toUpperCase()] = new Input(action)
@@ -13,10 +13,14 @@ export class ControlPressed{
             this.inputs[i].fire()
     }
     pressKey(event: KeyboardEvent){
-        this.inputs[event.key.toUpperCase()].setPressed(true)
+        let key = event.key.toUpperCase()
+        if(this.inputs[key])
+            this.inputs[key].setPressed(true)
     }
     unpressKey(event: KeyboardEvent){
-        this.inputs[event.key.toUpperCase()].setPressed(false)
+        let key = event.key.toUpperCase()
+        if(this.inputs[key])
+            this.inputs[key].setPressed(false)
     }
 }
 

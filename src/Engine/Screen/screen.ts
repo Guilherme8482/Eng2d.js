@@ -20,18 +20,19 @@ export class Screen{
             this.resize()
             addEventListener('resize', this.resize.bind(this))
         }
-
     }
     resize(event?: Event): void{
-
         this.canvas.height = window.innerHeight
         this.canvas.width = window.innerWidth
         this.limit.size.y = window.innerHeight
         this.limit.size.x = window.innerWidth
-        this.view.size.y = window.innerHeight - 50
-        this.view.size.x = window.innerWidth - 50
+        this.view.size.y = window.innerHeight - 200
+        this.view.size.x = window.innerWidth - 200
     }
     get context(): CanvasRenderingContext2D{
         return this.canvas.getContext('2d')
+    }    
+    clearCanvas(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 }

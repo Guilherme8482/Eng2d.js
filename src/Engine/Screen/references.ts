@@ -25,8 +25,18 @@ export class Velocity{
         if(this.current.x >= -1 && this.current.x <= 1)
             this.current.x = 0
         else if(this.current.x < 0)
-            this.current.x -= this.acceleration.x
-        else
             this.current.x += this.acceleration.x
+        else
+            this.current.x -= this.acceleration.x
+    }
+    increaseCurrentX(value: number){
+        this.current.x += value
+        if(this.current.x > this.max.x)
+            this.current.x = this.max.x
+    }
+    increaseCurrentY(value: number){
+        this.current.y += value
+        if(this.current.y > this.max.y)
+            this.current.y = this.max.y
     }
 }

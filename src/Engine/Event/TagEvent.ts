@@ -19,7 +19,7 @@ export class TagEvent{
             this.expectedTags.push(trgg)
         }
     }
-    fire(matchedComponents: {[id: number]: Component[]}){
+    fire(matchedComponents: {[id: number]: Component[]}): void{
         for(let i in matchedComponents)
             this.events[i](matchedComponents[i])
     }

@@ -9,10 +9,9 @@ export class Movable extends Visible{
     constructor(position: Point, size: Point, color: Color){
         super(position, size, color)
     }
-    refresh(): Movable{
+    refresh(){
         this.position.y += this.velocity.current.y
         this.position.x += this.velocity.current.x
         this.velocity.refresh()
-        return this
     }
 }
