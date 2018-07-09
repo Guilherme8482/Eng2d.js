@@ -22,12 +22,15 @@ export class Screen{
         }
     }
     resize(event?: Event): void{
-        this.canvas.height = window.innerHeight
         this.canvas.width = window.innerWidth
-        this.limit.size.y = window.innerHeight
+        this.canvas.height = window.innerHeight
         this.limit.size.x = window.innerWidth
-        this.view.size.y = window.innerHeight - 200
-        this.view.size.x = window.innerWidth - 200
+        this.limit.size.y = window.innerHeight
+
+        this.view.position.x = 0.1 * window.innerWidth
+        this.view.position.y = 0.1 * window.innerHeight
+        this.view.size.x = 0.8 * window.innerWidth
+        this.view.size.y = 0.8 * window.innerHeight
     }
     get context(): CanvasRenderingContext2D{
         return this.canvas.getContext('2d')

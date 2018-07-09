@@ -1,4 +1,4 @@
-import { Visible } from "./Engine/Components/Visible";
+/*import { Visible } from "./Engine/Components/Visible";
 import { Point } from "./Engine/Screen/references";
 import { Color } from "./Engine/utilitys";
 import { Solid } from "./Engine/Components/Solid";
@@ -21,6 +21,8 @@ e.currentScene.setScreenTarget(m1)
 e.currentScene.collection.addComponents([v2, v3, m1], 1)
 e.currentScene.collection.addComponent(bg, 0)
 e.run()
-console.log(e)
+console.log(e)*/
 
+import test from './testGame'
 
+test()

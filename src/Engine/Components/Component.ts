@@ -3,7 +3,8 @@ import { Tag } from '../Event/TagEvent';
 import { Axis } from '../utilitys';
 
 export class  Component{
-    readonly tags: Tag[] = []
+    readonly tags: Tag[] = []    
+    public fixed = false
     constructor(readonly position: Point,
                 readonly size: Point){
     }
@@ -49,5 +50,10 @@ export class  Component{
 		else
 			distance = this.position.y - (component.position.y + component.size.y)
         return distance < 0 ? 0 : distance
+    }
+    addTag(newTag: Tag): Component{
+        if(!this.tags.includes(newTag))
+            this.tags.push(newTag)
+        return this
     }
 }

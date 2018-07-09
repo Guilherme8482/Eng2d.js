@@ -16,14 +16,14 @@ export class Engine{
         let fps = 60
         setTimeout(() => window.requestAnimationFrame(this.run.bind(this)), 1 / fps)
         
-        console.time('run()')
+        //console.time('run()')
         this.currentScene.control.pressed.fireActions()
         this.renderComponents()
         this.adjustView()
         this.matchEvents()        
         this.refreshMovables()        
         this.matchEvents()
-        console.timeEnd('run()')
+        //console.timeEnd('run()')
     }
     renderComponents(){
         this.screen.clearCanvas()
@@ -69,10 +69,11 @@ export class Engine{
 		this.moveAllComponents(height, width)
     }
     moveAllComponents(height: number, width: number){
-        for(let component of this.currentScene.collection.all){
-            component.position.x += width
-            component.position.y += height
-        }
+        for(let component of this.currentScene.collection.all)
+            if(!component.fixed){
+                component.position.x += width
+                component.position.y += height
+            }
     }
     refreshMovables(){
         for(let component of this.currentScene.collection.movables)

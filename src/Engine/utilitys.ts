@@ -1,4 +1,4 @@
-export let GRAVITY = 2
+export let GRAVITY = 1.5
 
 export enum Axis{
     x,

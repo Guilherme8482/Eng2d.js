@@ -5,7 +5,8 @@ export enum Tag {
     player,
     ground,
     wall,
-    mob
+    mob,
+    deadline
 }
 
 export class TagEvent{

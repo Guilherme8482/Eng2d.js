@@ -8,7 +8,6 @@ export class Colletcion{
     readonly all: Component[] = []
     constructor(){
     }
-    addComponent(component: Visible | Movable, layer: number): void;
     addComponent(component: Component, layer?: number){
         this.all.push(component)
         if(layer >= 0 && component instanceof Visible){
@@ -19,9 +18,7 @@ export class Colletcion{
         if(component instanceof Movable)
             this.movables.push(component)
     }
-    addComponents(component: Visible[], layer: number): void;
-    addComponents(component: Movable[]): void;
-    addComponents(list: Visible[] | Movable[], layer?: number): void{
+    addComponents(list: Component[], layer?: number): void{
         for(let component of list)
             this.addComponent(component, layer)
     }
