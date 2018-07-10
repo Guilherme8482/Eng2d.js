@@ -14,8 +14,7 @@ export class Engine{
     }
     run(){
         let fps = 60
-        setTimeout(() => window.requestAnimationFrame(this.run.bind(this)), 1 / fps)
-        
+        setTimeout(() => window.requestAnimationFrame(this.run.bind(this)), 1 / fps)        
         //console.time('run()')
         this.currentScene.control.pressed.fireActions()
         this.renderComponents()

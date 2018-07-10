@@ -6,7 +6,7 @@ export class ControlPressed{
         addEventListener('keyup', this.unpressKey.bind(this))
     }
     addAction(button: string, action: () => void, timeLimit: number){
-        this.inputs[button[0].toUpperCase()] = new Input(action)
+        this.inputs[button[0].toUpperCase()] = new Input(action, timeLimit)
     }
     fireActions(): void{
         for(let i in this.inputs)
@@ -27,7 +27,7 @@ export class ControlPressed{
 class Input{
     private pressed = false
     private locked = false
-    constructor(private action: () => void, readonly timeLimit?: number){
+    constructor(private action: () => void, readonly timeLimit: number){
     }
     private allowed(): boolean{
         return this.pressed && !this.locked

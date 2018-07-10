@@ -39,18 +39,26 @@ export class Solid extends Movable{
             return
         }
         else if(crashedX.length > 0 ){
-			if(this.velocity.current.x > 0)
+			if(this.velocity.current.x > 0){
 				this.position.x += this.shorterDistance(crashedX, x)
-			else
+                this.bumpedTheRight()
+            }
+			else{
 				this.position.x -= this.shorterDistance(crashedX, x)
+                this.bumpedTheLeft()
+            }
 			this.velocity.current.x = 0
 			return
 		}
 		else if(crashedY.length > 0 ){
-			if(this.velocity.current.y > 0)
-				this.position.y += this.shorterDistance(crashedY, y)
-			else
+			if(this.velocity.current.y > 0){
+                this.position.y += this.shorterDistance(crashedY, y)
+                this.bumpedTheBottom()
+            }
+			else{
 				this.position.y -= this.shorterDistance(crashedY, y)
+                this.bumpedTheTop()
+            }
 			this.velocity.current.y = 0
 			return
         }
@@ -74,6 +82,10 @@ export class Solid extends Movable{
 			}
 		}
     }
+    bumpedTheTop(){}
+    bumpedTheBottom(){}
+    bumpedTheLeft(){}
+    bumpedTheRight(){}
     shorterDistance(components: Component[], axis: Axis): number{
         let distance = axis == x ? this.distanceX.bind(this) : this.distanceY.bind(this)
         let shorterDistance = Infinity,
