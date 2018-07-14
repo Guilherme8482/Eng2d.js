@@ -7,9 +7,9 @@ export class Scene{
     readonly collection = new Colletcion()
     readonly control: Control
     //readonly events ?
-    constructor(readonly name: string, canvas: HTMLCanvasElement){
+    constructor(canvas: HTMLCanvasElement){
         this.control = new Control(canvas)
-    }    
+    }
     setScreenTarget(target: Component){
         this.screenTarget = target
     }

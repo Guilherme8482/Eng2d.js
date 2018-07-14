@@ -7,14 +7,14 @@ export class Point{
 export class Velocity{
     readonly current = new Point(0,0)
     readonly max: Point
-    readonly acceleration: Point
+    readonly retention: Point
     constructor(maxX: number,maxY: number,
-                accelerationX?: number, accelerationY?: number){
+                retentionX?: number, retentionY?: number){
         this.max = new Point(maxX, maxY)
-        if(accelerationX && accelerationY)
-            this.acceleration = new Point(accelerationX, accelerationY)
+        if(retentionX && retentionY)
+            this.retention = new Point(retentionX, retentionY)
         else
-            this.acceleration = new Point(1,1)
+            this.retention = new Point(0.2,0.2)
 
     }
     refresh(){
@@ -22,12 +22,12 @@ export class Velocity{
         if(this.current.y > this.max.y)
             this.current.y = this.max.y
 
-        if(this.current.x >= -1 && this.current.x <= 1)
+        if(this.current.x >= -this.retention.x && this.current.x <= this.retention.x)
             this.current.x = 0
         else if(this.current.x < 0)
-            this.current.x += this.acceleration.x
+            this.current.x += this.retention.x
         else
-            this.current.x -= this.acceleration.x
+            this.current.x -= this.retention.x
     }
     increaseCurrentX(value: number){
         this.current.x += value

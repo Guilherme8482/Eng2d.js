@@ -3,26 +3,32 @@ import { Component } from './Components/Component';
 import { Scene } from './Scene';
 import { Screen } from './Screen/screen'
 
+export const refreshTime = 1000 / 144
+
 export class Engine{
-    readonly screen = new Screen()
-    readonly currentScene: Scene
-    readonly scenes: Scene[]
+    public screen = new Screen()
+    public currentScene: Scene
+    public scenes: {[id: string]: Scene} = {}
 
     constructor(){
-        this.currentScene = new Scene('default', this.screen.canvas)
-        this.scenes = [this.currentScene]
+        this.currentScene = new Scene(this.screen.canvas)
+        this.scenes['default'] = this.currentScene
     }
     run(){
-        let fps = 60
-        setTimeout(() => window.requestAnimationFrame(this.run.bind(this)), 1 / fps)        
-        //console.time('run()')
+        this.proccesGame()
+        this.renderScreen()
+    }
+    proccesGame(){
+        setTimeout(this.proccesGame.bind(this), refreshTime)
         this.currentScene.control.pressed.fireActions()
-        this.renderComponents()
         this.adjustView()
-        this.matchEvents()        
-        this.refreshMovables()        
         this.matchEvents()
-        //console.timeEnd('run()')
+        this.refreshMovables()
+        this.matchEvents()
+    }
+    renderScreen(){
+        window.requestAnimationFrame(this.renderScreen.bind(this))
+        this.renderComponents()
     }
     renderComponents(){
         this.screen.clearCanvas()
@@ -38,12 +44,12 @@ export class Engine{
 				a = this.currentScene.screenTarget.position.x - this.screen.view.position.x
 			else
 				a = this.screen.view.position.x - this.currentScene.screenTarget.position.x
-			
+
 			if(this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1 > this.screen.view.position.x + this.screen.view.size.x-1)
 				b = (this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1) - (this.screen.view.position.x + this.screen.view.size.x-1)
 			else
 				b = (this.screen.view.position.x + this.screen.view.size.x-1) - (this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1)
-			
+
 			if(a < b)
 				width = a
 			else
@@ -54,12 +60,12 @@ export class Engine{
 				a = this.currentScene.screenTarget.position.y - this.screen.view.position.y
 			else
 				a = this.screen.view.position.y - this.currentScene.screenTarget.position.y
-			
+
 			if(this.currentScene.screenTarget.position.y + this.currentScene.screenTarget.size.y-1 > this.screen.view.position.y + this.screen.view.size.y-1)
 				b = (this.currentScene.screenTarget.position.y + this.currentScene.screenTarget.size.y-1) - (this.screen.view.position.y + this.screen.view.size.y-1)
 			else
 				b = (this.screen.view.position.y + this.screen.view.size.y-1) - (this.currentScene.screenTarget.position.y + this.currentScene.screenTarget.size.y-1)
-			
+
 			if(a < b)
 				height = a
 			else
@@ -92,5 +98,13 @@ export class Engine{
                         }
             componentA.events.fire(matchedComponents)
         }
+    }
+    createScene(name: string): Scene{
+        if(this.scenes[name])
+            throw new Error('This name has already been used.')
+        return this.scenes[name] = new Scene(this.screen.canvas)
+    }
+    setCurrentScene(name: string){
+        this.currentScene = this.scenes[name]
     }
 }

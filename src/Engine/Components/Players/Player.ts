@@ -1,10 +1,7 @@
-import { Solid } from "./Solid";
-import { Point } from "../Screen/references";
-import { Color } from "../utilitys";
-import { Control } from "../Control/Control";
-import { Component } from "./Component";
-import { Axis} from "../utilitys"
-const { x, y } = Axis
+import { Solid } from "../Solid";
+import { Point } from "../../Screen/references";
+import { Color } from "../../utilitys";
+import { Control } from "../../Control/Control";
 
 export class Player extends Solid{
     readonly jumpStatus: Jump
@@ -13,24 +10,23 @@ export class Player extends Solid{
         if(control){
             control.pressed.addAction('D', this.walkRight.bind(this), 0)
             control.pressed.addAction('A', this.walkLeft.bind(this), 0)
-            //control.pressed.addAction(' ', this.jump.bind(this), 200)
             control.oneTime.addAction(' ', this.jump.bind(this))
         }
-        this.jumpStatus = new Jump(25, 3, this.velocity.current)
+        this.jumpStatus = new Jump(10, 3, this.velocity.current)
     }
     walkLeft(){
-        this.velocity.increaseCurrentX(-2)
+        this.velocity.increaseCurrentX(-0.4)
     }
     walkRight(): void{
-        this.velocity.increaseCurrentX(2)
-    }    
+        this.velocity.increaseCurrentX(0.4)
+    }
     jump(){
         this.jumpStatus.fire()
     }
     bumpedTheBottom(){
         this.jumpStatus.reset()
     }
-    
+
 }
 
 class Jump{

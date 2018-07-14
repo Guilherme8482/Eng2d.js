@@ -1,6 +1,5 @@
 import { Point } from '../Screen/references';
 import { Tag } from '../Event/TagEvent';
-import { Axis } from '../utilitys';
 
 export class  Component{
     readonly tags: Tag[] = []    

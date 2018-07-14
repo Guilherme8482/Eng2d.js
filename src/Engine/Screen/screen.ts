@@ -5,7 +5,9 @@ export class Screen{
     readonly canvas: HTMLCanvasElement
     readonly limit: Component
     readonly view: Component
-    constructor(fixedResolution?: Point){
+    readonly fps: number
+    constructor(fps?: number, fixedResolution?: Point){
+        this.fps = fps ? fps : 144
         this.canvas = document.createElement('canvas')
         document.body.appendChild(this.canvas)
 
@@ -34,7 +36,7 @@ export class Screen{
     }
     get context(): CanvasRenderingContext2D{
         return this.canvas.getContext('2d')
-    }    
+    }
     clearCanvas(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }

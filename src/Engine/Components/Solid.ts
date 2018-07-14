@@ -26,75 +26,79 @@ export class Solid extends Movable{
             else if(cloneY.collidesWith(component))
                 crashedY.push(component)
         if(crashedX.length > 0 && crashedY.length > 0){
-            if(this.velocity.current.x > 0)
-                this.position.x += this.shorterDistance(crashedX, x)
-            else
-                this.position.x -= this.shorterDistance(crashedX, x)
-            if(this.velocity.current.y > 0)
-                this.position.y += this.shorterDistance(crashedY, y)
-            else
-                this.position.y -= this.shorterDistance(crashedY, y)
-            this.velocity.current.y = 0
-            this.velocity.current.x = 0
+            this.approximateInX(this.closerComponent(crashedX, x))
+            this.approximateInY(this.closerComponent(crashedY, y))
             return
         }
         else if(crashedX.length > 0 ){
-			if(this.velocity.current.x > 0){
-				this.position.x += this.shorterDistance(crashedX, x)
-                this.bumpedTheRight()
-            }
-			else{
-				this.position.x -= this.shorterDistance(crashedX, x)
-                this.bumpedTheLeft()
-            }
-			this.velocity.current.x = 0
+            this.approximateInX(this.closerComponent(crashedX, x))
 			return
 		}
 		else if(crashedY.length > 0 ){
-			if(this.velocity.current.y > 0){
-                this.position.y += this.shorterDistance(crashedY, y)
-                this.bumpedTheBottom()
-            }
-			else{
-				this.position.y -= this.shorterDistance(crashedY, y)
-                this.bumpedTheTop()
-            }
-			this.velocity.current.y = 0
+            this.approximateInY(this.closerComponent(crashedY, y))
 			return
         }
-        let shorterDistanceX, shorterDistanceY,
-			cloneXY = this.clone(this),
+        let cloneXY = this.clone(this),
             crashedXY: Component[] = []
 		cloneXY.refresh();
 		for(let component of components)
-			if(this.collidesWith(component))
+			if(cloneXY.collidesWith(component))
                 crashedXY.push(component)
 		if(crashedXY.length > 0){
-			shorterDistanceX = this.shorterDistance(crashedXY, x)
-			shorterDistanceY = this.shorterDistance(crashedXY, y)
+            let closerInX = this.closerComponent(crashedXY, x),
+                closerInY = this.closerComponent(crashedXY, y),
+                shorterDistanceX = this.distanceX(closerInX),
+			    shorterDistanceY = this.distanceY(closerInY)
 			if(shorterDistanceX < shorterDistanceY)
-				this.velocity.current.x = 0
+                this.approximateInX(closerInX)
 			else if(shorterDistanceY < shorterDistanceX)
-				this.velocity.current.y = 0
+                this.approximateInY(closerInY)
 			else{
-				this.velocity.current.y = 0
-				this.velocity.current.x = 0
+                this.approximateInX(closerInX)
+                this.approximateInY(closerInY)
 			}
 		}
     }
-    bumpedTheTop(){}
+    approximateInX(component: Component){
+        let distance = this.distanceX(component)
+        if(this.velocity.current.x > 0){
+            this.position.x += distance
+            this.bumpedTheRight()
+        }
+        else{
+            this.position.x -= distance
+            this.bumpedTheLeft()
+        }
+        this.velocity.current.x = 0
+    }
+    approximateInY(component: Component){
+        let distance = this.distanceY(component)
+        if(this.velocity.current.y > 0){
+            this.position.y += distance
+            this.bumpedTheBottom()
+        }
+        else{
+            this.position.y -= distance
+            this.bumpedTheTop(component)
+        }
+        this.velocity.current.y = 0
+    }
+    bumpedTheTop(component: Component){}
     bumpedTheBottom(){}
     bumpedTheLeft(){}
     bumpedTheRight(){}
-    shorterDistance(components: Component[], axis: Axis): number{
-        let distance = axis == x ? this.distanceX.bind(this) : this.distanceY.bind(this)
-        let shorterDistance = Infinity,
+    closerComponent(components: Component[], axis: Axis): Component{
+        let distance: (component: Component) => number = axis == x ? this.distanceX.bind(this) : this.distanceY.bind(this),
+            closerComponent: Component,
+            shorterDistance = Infinity,
             currentDistance: number
         for(let component of components){
             currentDistance = distance(component)
-            if(currentDistance < shorterDistance)
+            if(currentDistance < shorterDistance){
                 shorterDistance = currentDistance
+                closerComponent = component
+            }
         }
-        return shorterDistance
+        return closerComponent
     }
 }

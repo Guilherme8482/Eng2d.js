@@ -1,4 +1,4 @@
-export let GRAVITY = 1.5
+export const GRAVITY = 9.8 / 50
 
 export enum Axis{
     x,
