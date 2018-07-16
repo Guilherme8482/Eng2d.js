@@ -1,10 +1,12 @@
 import { Color } from "../utilitys";
 import { Visible } from "./Visible";
-import { Velocity, Point } from "../Screen/references";
+import { Point } from "../Screen/references";
 import { TagEvent } from "../Event/TagEvent";
+import { Gravity } from '../Screen/Velocity/Gravity'
+import { Velocity } from "../Screen/Velocity/Velocity";
 
 export class Movable extends Visible{
-    public velocity = new Velocity(5,50)
+    public velocity: Velocity = new Gravity(5,50)
     readonly events = new TagEvent()
     constructor(position: Point, size: Point, color: Color){
         super(position, size, color)

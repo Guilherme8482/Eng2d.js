@@ -2,8 +2,7 @@ import { Point } from '../Screen/references';
 import { Tag } from '../Event/TagEvent';
 
 export class  Component{
-    readonly tags: Tag[] = []    
-    public fixed = false
+    readonly tags: Tag[] = []
     constructor(readonly position: Point,
                 readonly size: Point){
     }
@@ -53,6 +52,11 @@ export class  Component{
     addTag(newTag: Tag): Component{
         if(!this.tags.includes(newTag))
             this.tags.push(newTag)
+        return this
+    }
+    addTags(tags: Tag[]){
+        for(let tag of tags)
+            this.addTag(tag)
         return this
     }
 }

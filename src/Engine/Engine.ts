@@ -38,7 +38,10 @@ export class Engine{
                     component.draw(this.screen.context)
     }
     adjustView(){
-        let height = 0, width = 0, a , b;
+        let height = 0,
+            width = 0,
+            a: number,
+            b: number
 		if(this.currentScene.screenTarget.position.x < this.screen.view.position.x || this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1 > this.screen.view.position.x + this.screen.view.size.x-1){
 			if(this.currentScene.screenTarget.position.x > this.screen.view.position.x)
 				a = this.currentScene.screenTarget.position.x - this.screen.view.position.x
@@ -49,7 +52,6 @@ export class Engine{
 				b = (this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1) - (this.screen.view.position.x + this.screen.view.size.x-1)
 			else
 				b = (this.screen.view.position.x + this.screen.view.size.x-1) - (this.currentScene.screenTarget.position.x + this.currentScene.screenTarget.size.x-1)
-
 			if(a < b)
 				width = a
 			else
@@ -74,11 +76,10 @@ export class Engine{
 		this.moveAllComponents(height, width)
     }
     moveAllComponents(height: number, width: number){
-        for(let component of this.currentScene.collection.all)
-            if(!component.fixed){
-                component.position.x += width
-                component.position.y += height
-            }
+        for(let component of this.currentScene.collection.notFixed){
+            component.position.x += width
+            component.position.y += height
+        }
     }
     refreshMovables(){
         for(let component of this.currentScene.collection.movables)

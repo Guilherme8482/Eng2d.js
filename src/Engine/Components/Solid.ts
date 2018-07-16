@@ -1,6 +1,6 @@
 import { Movable } from "./Movable";
-import { Point } from "../Screen/references";
-import { Color, Axis } from "../utilitys";
+import { Point, Axis } from "../Screen/references";
+import { Color } from "../utilitys";
 import { Component } from "./Component";
 import { Tag } from "../Event/TagEvent";
 const  { solid } = Tag
@@ -63,11 +63,11 @@ export class Solid extends Movable{
         let distance = this.distanceX(component)
         if(this.velocity.current.x > 0){
             this.position.x += distance
-            this.bumpedTheRight()
+            this.bumpedTheRight(component)
         }
         else{
             this.position.x -= distance
-            this.bumpedTheLeft()
+            this.bumpedTheLeft(component)
         }
         this.velocity.current.x = 0
     }
@@ -75,7 +75,7 @@ export class Solid extends Movable{
         let distance = this.distanceY(component)
         if(this.velocity.current.y > 0){
             this.position.y += distance
-            this.bumpedTheBottom()
+            this.bumpedTheBottom(component)
         }
         else{
             this.position.y -= distance
@@ -84,9 +84,9 @@ export class Solid extends Movable{
         this.velocity.current.y = 0
     }
     bumpedTheTop(component: Component){}
-    bumpedTheBottom(){}
-    bumpedTheLeft(){}
-    bumpedTheRight(){}
+    bumpedTheBottom(component: Component){}
+    bumpedTheLeft(component: Component){}
+    bumpedTheRight(component: Component){}
     closerComponent(components: Component[], axis: Axis): Component{
         let distance: (component: Component) => number = axis == x ? this.distanceX.bind(this) : this.distanceY.bind(this),
             closerComponent: Component,

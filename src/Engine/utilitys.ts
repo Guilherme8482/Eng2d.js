@@ -1,11 +1,3 @@
-export const GRAVITY = 9.8 / 50
-
-export enum Axis{
-    x,
-    y,
-    z
-}
-
 export class Color{
     private _code: string
     constructor(color?: string){
@@ -15,7 +7,7 @@ export class Color{
             this.randomColor()
     }
     private randomColor(){
-        let hexadecimal = '123456789ABCDEF'
+        let hexadecimal = '0123456789ABCDEF'
         this._code = '#'
         for(let i = 0; i < 6; ++i)
             this._code += hexadecimal[Math.floor(Math.random() * 16)]

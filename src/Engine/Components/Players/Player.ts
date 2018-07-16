@@ -12,13 +12,13 @@ export class Player extends Solid{
             control.pressed.addAction('A', this.walkLeft.bind(this), 0)
             control.oneTime.addAction(' ', this.jump.bind(this))
         }
-        this.jumpStatus = new Jump(10, 3, this.velocity.current)
+        this.jumpStatus = new Jump(14, 3, this.velocity.current)
     }
     walkLeft(){
-        this.velocity.increaseCurrentX(-0.4)
+        this.velocity.increaseCurrentX(-0.3)
     }
     walkRight(): void{
-        this.velocity.increaseCurrentX(0.4)
+        this.velocity.increaseCurrentX(0.3)
     }
     jump(){
         this.jumpStatus.fire()
@@ -26,11 +26,9 @@ export class Player extends Solid{
     bumpedTheBottom(){
         this.jumpStatus.reset()
     }
-
 }
-
 class Jump{
-    private current: number
+    public current = 0
     constructor(readonly power: number, readonly limit: number, readonly target: Point){
     }
     allow(){

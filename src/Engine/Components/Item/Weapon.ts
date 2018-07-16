@@ -1,9 +1,11 @@
 import { Solid } from "../Solid";
-import { Point, Velocity } from "../../Screen/references";
+import { Point } from "../../Screen/references";
 import { Color } from "../../utilitys";
-import { Shooter } from "./Shooter";
+import { Shooter } from "../Players/Shooter";
 import { Component } from "../Component";
-
+import { Retention } from "../../Screen/Velocity/Retention";
+import { Tag } from "../../Event/TagEvent";
+const { solid } = Tag
 class Reference{
     readonly position: Point
     readonly size: Point
@@ -18,12 +20,13 @@ class Reference{
 }
 
 export class Weapon{
-    private bulletsLoaded: number
+    public bulletsLoaded: number
     private totalBullets: number
     private reference: Reference
     constructor(readonly capacity: number,
                 reference: Shooter,
                 readonly addComponent: (component: Component, layer: number) => void,
+                readonly removeFromEngine: (component: Component) => void,
                 readonly layer: number){
         this.bulletsLoaded = capacity
         this.totalBullets = capacity
@@ -34,7 +37,6 @@ export class Weapon{
             this.makeBullet()
             this.bulletsLoaded--
         }
-        console.log('fired...', this)
     }
     reload(){
         let lackToFill = this.capacity - this.bulletsLoaded
@@ -57,7 +59,7 @@ export class Weapon{
             this.reference.position.x + this.reference.size.x * 0.5,
             this.reference.position.y + this.reference.size.y * 0.5
         )
-        let bullet = new Bullet(startPosition, new Point(20,10), new Color('black'))
+        let bullet = new Bullet(startPosition, new Point(20,10), new Color('black'), this.removeFromEngine)
         if(this.reference.isLookingToTheRight())
             bullet.velocity.current.x = 8
         else
@@ -68,12 +70,20 @@ export class Weapon{
 
 export class Bullet extends Solid{
     readonly damage: number
-    constructor(position: Point, size: Point, color: Color){
+    private wasDestroyed = false
+    constructor(position: Point, size: Point, color: Color,
+            readonly removeFromEngine: (component: Component) => void){
         super(position, size, color)
-        this.velocity = new Velocity(0, 0, 0.001, 0.001)
+        this.velocity = new Retention(0, 0, 0.001, 0.001)
+        this.events.add([solid], this.makeCollision.bind(this))
     }
-    bumpedTheTop(){}
-    bumpedTheBottom(){}
-    bumpedTheLeft(){}
-    bumpedTheRight(){}
+    bumpedTheLeft(component: Component){
+        this.giveDamage(component)
+    }
+    bumpedTheRight(component: Component){
+        this.giveDamage(component)}
+    giveDamage(component: Component){
+        //took damage to the player
+        this.removeFromEngine(this)
+    }
 }
